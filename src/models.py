@@ -6,7 +6,7 @@ from sqlalchemy.orm import relationship, declarative_base
 from sqlalchemy import create_engine
 from eralchemy2 import render_er
 
-# Instanciamos Base usando SQLAlchemy puro
+
 Base = declarative_base()
 
 class User(Base):
@@ -18,7 +18,7 @@ class User(Base):
     last_name = Column(String(50), nullable=True)
     subscription_date = Column(DateTime, default=datetime.utcnow)
     
-    # Relación: Un usuario puede tener muchos favoritos (Uno a Muchos)
+
     favorites = relationship('Favorite', backref='user', lazy=True)
 
     def __repr__(self):
@@ -41,7 +41,7 @@ class Character(Base):
     hair_color = Column(String(50))
     eye_color = Column(String(50))
 
-    # Relación para saber en cuántos favoritos aparece este personaje
+
     favorites = relationship('Favorite', backref='character', lazy=True)
 
     def __repr__(self):
@@ -64,7 +64,7 @@ class Planet(Base):
     population = Column(String(100))
     terrain = Column(String(100))
 
-    # Relación para saber en cuántos favoritos aparece este planeta
+
     favorites = relationship('Favorite', backref='planet', lazy=True)
 
     def __repr__(self):
@@ -83,7 +83,7 @@ class Favorite(Base):
     __tablename__ = 'favorite'
     id = Column(Integer, primary_key=True)
     
-    # Claves foráneas (Foreign Keys)
+
     user_id = Column(Integer, ForeignKey('user.id'), nullable=False)
     planet_id = Column(Integer, ForeignKey('planet.id'), nullable=True)
     character_id = Column(Integer, ForeignKey('character.id'), nullable=True)
@@ -99,7 +99,6 @@ class Favorite(Base):
             "character_id": self.character_id
         }
 
-# Generamos el diagrama usando Base
 try:
     result = render_er(Base, 'diagram.png')
     print("Success! Check the diagram.png file")
